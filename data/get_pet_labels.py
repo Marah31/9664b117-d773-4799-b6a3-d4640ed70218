@@ -17,7 +17,6 @@
 #
 ##
 # Imports python modules
-import os
 from os import listdir
 
 # TODO 2: Define get_pet_labels function below please be certain to replace None
@@ -25,35 +24,27 @@ from os import listdir
 #       with this function
 # 
 def get_pet_labels(image_dir):
-    """
-    Creates a dictionary of pet labels (results_dic) based upon the filenames 
-    of the image files. These pet image labels are used to check the accuracy 
-    of the labels that are returned by the classifier function, since the 
-    filenames of the images contain the true identity of the pet in the image.
-    Be sure to format the pet labels so that they are in all lower case letters
-    and with leading and trailing whitespace characters stripped from them.
-    (ex. filename = 'Boston_terrier_02259.jpg' Pet label = 'boston terrier')
-    Parameters:
-     image_dir - The (full) path to the folder of images that are to be
-                 classified by the classifier function (string)
-    Returns:
-      results_dic - Dictionary with 'key' as image filename and 'value' as a 
-      List. The list contains for following item:
-         index 0 = pet image label (string)
-    """
+    in_files = listdir(image_dir)
     results_dic ={}
-    exist=[]
-    for files in os.listdir(image_dir):
-        label=files.split('.')[0]
-        label.lower()
-        label.replace('_',' ')
-        if label in exist:
-            print(f"the Label {files}: {label} is duplicated ")
-            continue
-        else:
-            exist.append(label)
-            results_dic[files]=[label.strip()]
+    for file in range(0, len(in_files), 1):
 
-    # Replace None with the results_dic dictionary that you created with this
-    # function
+        # Skips file if starts with . (like .DS_Store of Mac OSX) because it
+        # isn't an pet image file
+        if in_files[file][0] != ".":
+
+            # Sets string to lower case letters
+            # Splits lower case string by _ to break into words
+            pet_image = in_files[file].lower().split("_")
+            pet_label = ""
+            for word in pet_image:
+                if word.isalpha():
+                    pet_label += word + " "
+            pet_label = pet_label.strip()
+            if in_files[file] not in results_dic:
+                results_dic[in_files[file]] = [pet_label]
+
+            else:
+                print("** Warning: Duplicate files exist in directory:",
+                      in_files[file])
+
     return results_dic

@@ -38,13 +38,21 @@ def get_input_args():
     Returns:
      parse_args() -data structure that stores the command line arguments object  
     """
-    # Create Parse using ArgumentParser
-    arg_parse= argparse.ArgumentParser()
-    # Create 3 command line arguments as mentioned above using add_argument() from ArguementParser method
-    arg_parse.add_argument('first_arg', type=str, help="this is first argument")
-    arg_parse.add_argument('second_arg', type=str, help="this is second argument")
-    arg_parse.add_argument('third_arg', type=str, help="this is third argument")
+    parser = argparse.ArgumentParser()
 
-    # Replace None with parser.parse_args() parsed argument collection that 
-    # you created with this function 
-    return arg_parse.parse_args()
+    # Creates 3 command line arguments args.dir for path to images files,
+    # args.arch which CNN model to use for classification, args.labels path to
+    # text file with names of dogs.
+    parser.add_argument('--dir', type=str, default='pet_images/',
+                        help='path to folder of images')
+    # TODO: 1a. EDIT parse.add_argument statements BELOW to add type & help for:
+    #          --arch - the CNN model architecture
+    #          --dogfile - text file of names of dog breeds
+    parser.add_argument('--arch', type=str, default='vgg',
+                        help='CNN model architecture')
+    parser.add_argument('--dogfile', type=str, default='dognames.txt',
+                        help='text file of names of dog breeds')
+
+    # TODO: 1b. Replace None with parser.parse_args() parsed argument
+    # collection that you created with this function
+    return parser.parse_args()
